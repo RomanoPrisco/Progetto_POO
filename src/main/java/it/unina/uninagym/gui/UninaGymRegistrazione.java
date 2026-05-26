@@ -2,38 +2,46 @@ package it.unina.uninagym.gui;
 
 import it.unina.uninagym.controller.ControllerAccesso;
 import it.unina.uninagym.exception.CampoNonTrovatoException;
-import it.unina.uninagym.model.Cliente;
-import it.unina.uninagym.model.Corso;
+import it.unina.uninagym.exception.ClienteNonEsistenteException;
 import it.unina.uninagym.model.TipoAbbonamento;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UninaGymMain {
-    private JPanel mainPanelAccesso;
-    private JButton accediButton;
-    private JButton esciButton;
+public class UninaGymRegistrazione {
+    private JPanel mainRegistrazionePanel;
     private JTextField campoNome;
     private JTextField campoCognome;
-    private JTextField campoCodFiscale;
-    private JRadioButton radioNormal;
-    private JRadioButton radioGold;
     private JPasswordField campoPassword;
-    private JButton registrazioneButton;
+    private JButton confermaButton;
+    private JRadioButton radioGold;
+    private JRadioButton radioNormal;
+    private JButton esciButton;
     private JButton occhioButton;
 
     private static JFrame frame;
-    private ControllerAccesso controllerAccesso;
-    //ButtonGroup per gestire il tipo di abbonamento con i radioButton
+    private ControllerAccesso controllerAccesso = new ControllerAccesso();
     private ButtonGroup gruppoAbbonamento;
 
-    public UninaGymMain(JFrame frameChiamante, ControllerAccesso controllerAccesso){
+
+    public UninaGymRegistrazione(ButtonGroup gruppoAbbonamento, ControllerAccesso controllerAccesso) {
+        this.gruppoAbbonamento = gruppoAbbonamento;
+        this.controllerAccesso = controllerAccesso;
+    }
+
+    public UninaGymRegistrazione(JFrame frameChiamante) {
+
+        frame = new JFrame("UninaGymRegistrazione");
+        frame.setContentPane(mainRegistrazionePanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+
         gruppoAbbonamento = new ButtonGroup();
         gruppoAbbonamento.add(radioGold);
         gruppoAbbonamento.add(radioNormal);
 
-        //Inserimento dell'icona
         ImageIcon iconaOcchioAperto = new ImageIcon(getClass().getResource("/Icone/Occhio-aperto.png"));
         ImageIcon iconaOcchioChiuso = new ImageIcon(getClass().getResource("/Icone/Occhio-chiuso.png"));
 
@@ -64,46 +72,38 @@ public class UninaGymMain {
             }
         });
 
-        accediButton.addActionListener(new ActionListener(){
+        confermaButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 try {
                     String nome = campoNome.getText();
                     String cognome = campoCognome.getText();
                     String password = new String(campoPassword.getPassword());
                     TipoAbbonamento tipoAbbonamento = null;
-                    //Controlla quale tipo di Abbonamento viene selezionato
-                    if(radioGold.isSelected()) {
+
+                    if (radioGold.isSelected()) {
                         tipoAbbonamento = TipoAbbonamento.GOLD;
-                    } else if(radioNormal.isSelected()) {
+                    } else if (radioNormal.isSelected()) {
                         tipoAbbonamento = TipoAbbonamento.NORMAL;
                     }
-                    //Aggiungi il cliente alla lista del Controller
-                    boolean isPrimoAccesso = controllerAccesso.aggiungiCliente(nome, cognome, password, tipoAbbonamento);
 
-                    if(isPrimoAccesso){
-                        JOptionPane.showMessageDialog(null, "Benvenuto " + nome + " " + cognome);
-                    }
-                    //Per ora dà errore perchè, non avendo il database da cui prende i dati, l'Abbonamento è null
-                    else{
-                        JOptionPane.showMessageDialog(null, "Bentornato " + nome + " " + cognome);
-                    }
+                    controllerAccesso.registraCliente(nome, cognome, password, tipoAbbonamento);
+                    JOptionPane.showMessageDialog(null, "Registrazione avvenuta correttamente");
 
-                    Cliente cliente = null;
-                    Corso[] corsi = new Corso[6];
+                    frame.dispose();
 
-                    UninaGymHome uninaGymHome = new UninaGymHome(frame);
-                    frame.setVisible(false);
                     campoNome.setText("");
                     campoCognome.setText("");
                     campoPassword.setText("");
                     gruppoAbbonamento.clearSelection();
 
-                    uninaGymHome.setCliente(cliente);
-                    uninaGymHome.setCorsi(corsi);
+                    frameChiamante.setVisible(true);
                 }
-                catch (CampoNonTrovatoException ec){
+                catch(CampoNonTrovatoException ec){
                     JOptionPane.showMessageDialog(null, ec.getMessage());
+                }
+                catch(ClienteNonEsistenteException en){
+                    JOptionPane.showMessageDialog(null, en.getMessage());
                 }
             }
         });
@@ -111,28 +111,9 @@ public class UninaGymMain {
         esciButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                JOptionPane.showMessageDialog(null, "Grazie per aver usato il nostro servizio");
                 frame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
-
-        registrazioneButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                UninaGymRegistrazione registrazione = new UninaGymRegistrazione(frame);
-                frame.setVisible(false);
-            }
-        });
-    }
-
-    public static void main(String[] args){
-        ControllerAccesso controllerAccesso = new ControllerAccesso();
-
-        frame = new JFrame("UninaGymMain");
-        //Passa il controller alla GUI della Registrazione
-        frame.setContentPane(new UninaGymMain(frame, controllerAccesso).mainPanelAccesso);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
     }
 }

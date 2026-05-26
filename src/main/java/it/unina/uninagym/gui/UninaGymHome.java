@@ -44,6 +44,8 @@ public class UninaGymHome {
     private JButton iscrivitiButton;
     private JTable tableCorsi;
     private JTable tableAccessi;
+    private JPasswordField campoPassword;
+    private JButton occhioButton;
 
     public JFrame frame;
     private ControllerIscrizione controllerIscrizione = new ControllerIscrizione();
@@ -146,6 +148,36 @@ public class UninaGymHome {
             });
         }
         */
+
+        ImageIcon iconaOcchioAperto = new ImageIcon(getClass().getResource("/Icone/Occhio-aperto.png"));
+        ImageIcon iconaOcchioChiuso = new ImageIcon(getClass().getResource("/Icone/Occhio-chiuso.png"));
+
+        //Mette nella variabile password il testo (nascosto) della password
+        char password = campoPassword.getEchoChar();
+
+        occhioButton.setIcon(iconaOcchioChiuso);
+        occhioButton.setBorderPainted(false);
+        occhioButton.setContentAreaFilled(false);
+        occhioButton.setFocusPainted(false);
+
+        occhioButton.addActionListener(new ActionListener(){
+            private boolean passwordSiVede = false;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(passwordSiVede){
+                    //Mostra i caratteri della password e cambia icona del bottone
+                    campoPassword.setEchoChar(password);
+                    occhioButton.setIcon(iconaOcchioChiuso);
+                    passwordSiVede = false;
+                }
+                else{
+                    //Nasconde i caratteri della password e cambia icona del bottone
+                    campoPassword.setEchoChar((char) 0);
+                    occhioButton.setIcon(iconaOcchioAperto);
+                    passwordSiVede = true;
+                }
+            }
+        });
 
         esciButton.addActionListener(new ActionListener(){
             @Override

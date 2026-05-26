@@ -19,8 +19,7 @@ public abstract class Persona {
     }
 
     //Overloading del Costruttore per aggiungere Clienti alla GUI
-    public Persona(String codiceFiscale, String nome, String cognome){
-        this.codiceFiscale = codiceFiscale;
+    public Persona(String nome, String cognome) {
         this.nome = nome;
         this.cognome = cognome;
     }
