@@ -40,7 +40,7 @@ public class UninaGymHome {
     private JCheckBox zumbaCheckBox;
     private JCheckBox crossfitCheckBox;
     private JCheckBox pesiCheckBox;
-    private JCheckBox salapesiCheckBox;
+    private JCheckBox aerobicaCheckBox;
     private JButton iscrivitiButton;
     private JTable tableCorsi;
     private JTable tableAccessi;
@@ -75,7 +75,7 @@ public class UninaGymHome {
         cb[2] = zumbaCheckBox;
         cb[3] = crossfitCheckBox;
         cb[4] = pesiCheckBox;
-        cb[5] = salapesiCheckBox;
+        cb[5] = aerobicaCheckBox;
 
         /*Tutti i campi verranno aggiunti una volta fatto il collegamento con il database
 
