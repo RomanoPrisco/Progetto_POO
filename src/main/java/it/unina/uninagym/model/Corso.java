@@ -1,15 +1,14 @@
 package it.unina.uninagym.model;
 import java.sql.Time;
-import java.util.Date;
 
 public class Corso {
     private int id;
     private String nome;
     private int capienzaMassima;
     private Time oraInizio;
-    private Date giorno;
+    private GiornoSettimana giorno;
 
-    public Corso(int id, String nome, int capienzaMassima, Time oraInizio, Date giorno) {
+    public Corso(int id, String nome, int capienzaMassima, Time oraInizio, GiornoSettimana giorno) {
         this.id = id;
         this.nome = nome;
         this.capienzaMassima = capienzaMassima;
@@ -49,11 +48,11 @@ public class Corso {
         this.oraInizio = oraInizio;
     }
 
-    public Date getGiorno() {
+    public GiornoSettimana getGiorno() {
         return giorno;
     }
 
-    public void setGiorno(Date giorno) {
+    public void setGiorno(GiornoSettimana giorno) {
         this.giorno = giorno;
     }
 }
