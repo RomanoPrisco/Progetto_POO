@@ -1,0 +1,7 @@
+it.unina.uninagym.controller
+it.unina.uninagym.dao
+it.unina.uninagym.database
+it.unina.uninagym.exception
+it.unina.uninagym.gui
+it.unina.uninagym.implementazionePostgresDAO
+it.unina.uninagym.model

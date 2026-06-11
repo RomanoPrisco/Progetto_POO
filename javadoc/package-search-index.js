@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html","k":"18"},{"l":"it.unina.uninagym.controller"},{"l":"it.unina.uninagym.dao"},{"l":"it.unina.uninagym.database"},{"l":"it.unina.uninagym.exception"},{"l":"it.unina.uninagym.gui"},{"l":"it.unina.uninagym.implementazionePostgresDAO"},{"l":"it.unina.uninagym.model"}];updateSearchResults();
